@@ -58,9 +58,14 @@ const Content = styled(DialogContent)`
 
 const CloseButton = styled(UnstyledButton)`
   position: absolute;
-  top: 10px;
+  top: -4px;
   right: 0;
-  padding: 16px;
+  padding: 32px;
+  
+  @media ${QUERIES.phoneAndSmaller} {
+    top: 12px;
+    padding: 16px;
+  }
 `;
 
 const Nav = styled.nav`
