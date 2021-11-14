@@ -80,6 +80,7 @@ const Wrapper = styled.article`
 const ImageWrapper = styled.div`
   overflow: hidden;
   border-radius: 16px 16px 4px 4px;
+  will-change: transform;
 `;
 
 const Image = styled.img`
