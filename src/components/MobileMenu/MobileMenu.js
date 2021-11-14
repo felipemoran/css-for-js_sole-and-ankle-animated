@@ -1,40 +1,52 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import styled from 'styled-components/macro';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
+import styled, {keyframes} from 'styled-components/macro';
+import {DialogOverlay, DialogContent} from '@reach/dialog';
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import {COLORS, QUERIES, WEIGHTS} from '../../constants';
 
 import UnstyledButton from '../UnstyledButton';
 import Icon from '../Icon';
 import VisuallyHidden from '../VisuallyHidden';
 
-const MobileMenu = ({ isOpen, onDismiss }) => {
-  return (
-    <Overlay isOpen={isOpen} onDismiss={onDismiss}>
-      <Content aria-label="Menu">
-        <CloseButton onClick={onDismiss}>
-          <Icon id="close" />
-          <VisuallyHidden>Dismiss menu</VisuallyHidden>
-        </CloseButton>
-        <Filler />
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-        </Nav>
-        <Footer>
-          <SubLink href="/terms">Terms and Conditions</SubLink>
-          <SubLink href="/privacy">Privacy Policy</SubLink>
-          <SubLink href="/contact">Contact Us</SubLink>
-        </Footer>
-      </Content>
-    </Overlay>
-  );
+const MobileMenu = ({isOpen, onDismiss}) => {
+    return (
+        <Overlay isOpen={isOpen} onDismiss={onDismiss}>
+            <Content aria-label="Menu">
+                <CloseButton onClick={onDismiss}>
+                    <Icon id="close"/>
+                    <VisuallyHidden>Dismiss menu</VisuallyHidden>
+                </CloseButton>
+                <Filler/>
+                <Nav>
+                    <NavLink style={{"--index": 1}} href="/sale">Sale</NavLink>
+                    <NavLink style={{"--index": 2}} href="/new">New&nbsp;Releases</NavLink>
+                    <NavLink style={{"--index": 3}} href="/men">Men</NavLink>
+                    <NavLink style={{"--index": 4}} href="/women">Women</NavLink>
+                    <NavLink style={{"--index": 5}} href="/kids">Kids</NavLink>
+                    <NavLink style={{"--index": 6}} href="/collections">Collections</NavLink>
+                </Nav>
+                <Footer>
+                    <SubLink style={{"--index": 7}} href="/terms">Terms and Conditions</SubLink>
+                    <SubLink style={{"--index": 8}} href="/privacy">Privacy Policy</SubLink>
+                    <SubLink style={{"--index": 9}} href="/contact">Contact Us</SubLink>
+                </Footer>
+            </Content>
+        </Overlay>
+    );
 };
+
+const menuSlideDuration = '500ms'
+
+const overlayFade = keyframes`
+  0% {
+    background: transparent;
+  }
+
+  100% {
+    background: var(--color-backdrop);
+  }
+`
 
 const Overlay = styled(DialogOverlay)`
   position: fixed;
@@ -42,18 +54,32 @@ const Overlay = styled(DialogOverlay)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+
+  animation: ${overlayFade} ${menuSlideDuration} ease-out both;
+  will-change: background;
 `;
+
+const slideInContent = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+`
 
 const Content = styled(DialogContent)`
   background: white;
-  width: 300px;
+  width: 330px;
+  margin-right: -30px;
   height: 100%;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+
+  animation: ${slideInContent} ${menuSlideDuration} 150ms cubic-bezier(.29,1.34,.85,.98) backwards;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -61,7 +87,7 @@ const CloseButton = styled(UnstyledButton)`
   top: -4px;
   right: 0;
   padding: 32px;
-  
+
   @media ${QUERIES.phoneAndSmaller} {
     top: 12px;
     padding: 16px;
@@ -74,6 +100,15 @@ const Nav = styled.nav`
   gap: 16px;
 `;
 
+const navLinkFade = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+
 const NavLink = styled.a`
   color: var(--color-gray-900);
   font-weight: ${WEIGHTS.medium};
@@ -84,6 +119,12 @@ const NavLink = styled.a`
   &:first-of-type {
     color: var(--color-secondary);
   }
+  
+  animation:
+    ${navLinkFade}
+    ${menuSlideDuration}
+    calc(200ms + 50ms * var(--index))
+    backwards;
 `;
 
 const Filler = styled.div`
@@ -101,6 +142,13 @@ const SubLink = styled.a`
   color: var(--color-gray-700);
   font-size: 0.875rem;
   text-decoration: none;
+  
+  animation:
+    ${navLinkFade}
+    ${menuSlideDuration}
+    calc(400ms + 30ms * var(--index))
+    backwards;
 `;
+
 
 export default MobileMenu;
