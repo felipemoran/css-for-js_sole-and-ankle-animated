@@ -70,6 +70,15 @@ const slideInContent = keyframes`
   }
 `
 
+const fadeContent = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+
 const Content = styled(DialogContent)`
   background: white;
   width: 330px;
@@ -79,7 +88,13 @@ const Content = styled(DialogContent)`
   display: flex;
   flex-direction: column;
 
-  animation: ${slideInContent} ${menuSlideDuration} 150ms cubic-bezier(.29,1.34,.85,.98) backwards;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${slideInContent} ${menuSlideDuration} 150ms cubic-bezier(.29, 1.34, .85, .98) backwards;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    animation: ${fadeContent} ${menuSlideDuration} 150ms cubic-bezier(.29, 1.34, .85, .98) backwards;
+  }
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -143,7 +158,7 @@ const SubLink = styled.a`
   font-size: 0.875rem;
   text-decoration: none;
   
-  animation:
+  animation: 
     ${navLinkFade}
     ${menuSlideDuration}
     calc(400ms + 30ms * var(--index))
