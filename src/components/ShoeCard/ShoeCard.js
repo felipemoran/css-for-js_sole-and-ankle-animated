@@ -78,7 +78,6 @@ const Wrapper = styled.article`
 `;
 
 const ImageWrapper = styled.div`
-  position: relative;
   overflow: hidden;
   border-radius: 16px 16px 4px 4px;
 `;
@@ -91,9 +90,11 @@ const Image = styled.img`
   
   will-change: transform;
 
-  ${Wrapper}:hover & {
-    transform: scale(1.1);
-    transition-duration: 200ms;
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:is(:hover, :focus) & {
+        transform: scale(1.1);
+        transition-duration: 200ms;
+      }
   }
 `;
 
@@ -138,10 +139,12 @@ const Flag = styled.div`
   transition: transform 750ms;
   will-change: transform;
 
-  ${Wrapper}:hover & {
-    transform: scale(1.05) translate(5px, -5px);
-    
-    transition: transform 200ms;
+  
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${Link}:is(:hover, :focus) & {
+        transform: scale(1.05) translate(5px, -5px);
+        transition: transform 200ms;
+      }
   }
 `;
 
