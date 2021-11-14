@@ -36,7 +36,7 @@ const MobileMenu = ({isOpen, onDismiss}) => {
     );
 };
 
-const menuSlideDuration = '500ms'
+const menuSlideDuration = '400ms'
 
 const overlayFade = keyframes`
   0% {
@@ -80,27 +80,29 @@ const fadeContent = keyframes`
 `
 
 const Content = styled(DialogContent)`
+  --overfill: 16px;
+  position: relative;
   background: white;
-  width: 330px;
-  margin-right: -30px;
+  width: calc(300px + var(--overfill));
+  margin-right: calc(-1 * var(--overfill));
   height: 100%;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: ${slideInContent} ${menuSlideDuration} 150ms cubic-bezier(.29, 1.34, .85, .98) backwards;
+    animation: ${slideInContent} ${menuSlideDuration} 150ms cubic-bezier(0, 0.6, 0.32, 1.06) backwards;
   }
   
   @media (prefers-reduced-motion: reduce) {
-    animation: ${fadeContent} ${menuSlideDuration} 150ms cubic-bezier(.29, 1.34, .85, .98) backwards;
+    animation: ${fadeContent} ${menuSlideDuration} 150ms ease-out backwards;
   }
 `;
 
 const CloseButton = styled(UnstyledButton)`
   position: absolute;
   top: -4px;
-  right: 0;
+  right: var(--overfill);
   padding: 32px;
 
   @media ${QUERIES.phoneAndSmaller} {
